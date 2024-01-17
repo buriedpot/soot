@@ -1304,12 +1304,14 @@ public class SootClass extends AbstractHost {
    */
   public Collection<SootMethod> getMethodsByNameAndParamCount(String name, int paramCount) {
     List<SootMethod> result = null;
-    for (SootMethod m : getMethods()) {
-      if (m.getParameterCount() == paramCount && m.getName().equals(name)) {
-        if (result == null) {
-          result = new ArrayList<>();
+    synchronized(this) {
+      for (SootMethod m : getMethods()) {
+        if (m.getParameterCount() == paramCount && m.getName().equals(name)) {
+          if (result == null) {
+            result = new ArrayList<>();
+          }
+          result.add(m);
         }
-        result.add(m);
       }
     }
 
